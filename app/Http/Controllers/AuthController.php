@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Symfony\Component\Console\Input;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -17,21 +18,32 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+    // LOGIN
     public function index(Request $request)
     {
-        //
-        $email = $request->old('email');
+        $credentials = $request->only('email', 'password');
+        $user = User::where('email', '=', $credentials['email'])->first(); 
+
+        if(!$user) {
+            $errors['email'] = 'User not found';
+            return redirect()->back()->withInput()->withErrors(['email' => 'User not found!!!']);
+        }
+
+        if(!Hash::check($credentials['password'], $user->password)) {
+            $errors['password'] = 'Password does not match';
+            return redirect()->back()->withInput()->withErrors(['password' => 'Password does not match']);
+        }
+
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        $credentials = $request->only('email', 'password');
 
         if(Auth::attempt($credentials)) {
             return redirect()->intended('/admin');
         }
-       return redirect()->intended('/login');
     }
 
     /**
@@ -62,13 +74,13 @@ class AuthController extends Controller
 
         $user_exist = User::where('email', $value['email'])->get();
         if(count($user_exist) > 0) {
-            return redirect()->back()->withInput()->withErrors(['message' => 'user already taken']);
+            return redirect()->back()->withInput()->withErrors(['message' => 'Email already exist']);
         }
 
         $rules = [
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required',
+            'password' => 'required|min:3|max:10',
             'password_confirmed' => 'required|same:password'
         ];
 

@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Login V4</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="{{ asset('frontend') }}/form/images/icons/favicon.ico"/>
 <!--===============================================================================================-->
@@ -26,15 +20,15 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/form/css/util.css">
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/form/css/main.css">
 <!-- =============================================================================================== -->
-</head>
-<body>
 
-	<div class="limiter">
+@extends('layouts.app')
+@section('content')
+<div class="limiter">
 		<div class="container-login100" style="background-image: url('{{ asset('frontend') }}/form/images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 				<form method="POST" action="/login" class="login100-form validate-form">
 					{{ csrf_field() }}
-					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is required">
 						<span class="label-input100">Email</span>
 						<input class="input100" type="email" name="email" value="{{old('email')}}" placeholder="Enter email">
 						<span class="focus-input100" data-symbol="&#xf206;"></span>
@@ -93,12 +87,7 @@
 				</form>
 			</div>
 		</div>
-	</div>
-	
-
-	<div id="dropDownSelect1">
-
-	</div>
+	</div>@endsection
 	
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -116,6 +105,3 @@
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
-
-</body>
-</html>

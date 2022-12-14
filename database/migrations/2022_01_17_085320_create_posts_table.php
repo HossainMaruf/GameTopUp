@@ -15,8 +15,19 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('title');
+            $table->string('body');
+            $table->string('file')->nullable();
+            $table->string('user_id');
+            $table->timestamp("created_at")->useCurrent();
+            $table->timestamp("updated_at")->useCurrent()->useCurrentOnUpdate();
+
         });
+    }
+
+    // relationship with users table
+    public function user() {
+        return $this->belongsTo('user');
     }
 
     /**

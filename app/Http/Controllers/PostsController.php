@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Post;
 
 class PostsController extends Controller
 {
@@ -15,7 +17,8 @@ class PostsController extends Controller
     public function index()
     {
         //
-        return view('admin.post.index');
+        $posts = Post::where('user_id', Auth::user()->id)->get();
+        return view('admin.post.posts', compact('posts'));
     }
 
     /**
@@ -51,11 +54,18 @@ class PostsController extends Controller
             return redirect()->back()->withInput()->withErrors($validator);
         }
 
-        $names = [];
-        foreach($request->filenames as $file) {
-            array_push($names, $file->getClientOriginalName());
+        $post = [];
+        $filename = '';
+        $post['title'] = $request->title;
+        $post['body'] = $request->message;
+        $post['user_id'] = Auth::user()->id;
+        if($file = $request->file('file')) {
+            $filename = time().'__'.$file->getClientOriginalName();
+            $file->move('images', $filename);
         }
-        return $names;
+        $post['file'] = $filename;
+        Post::insert($post);
+        return redirect()->intended('/admin/posts');
         //
     }
 
@@ -79,6 +89,10 @@ class PostsController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::where("id", $id)->first();
+        $post = ['id' => $id, 'title' => $post->title, 'message' => $post->body, 'file' => $post->file];
+        // return $data;
+        return view('admin.post.edit', ['post' => $post]);
     }
 
     /**
@@ -91,6 +105,20 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post = Post::where("id", $id)->first();
+
+        $post['title'] = $request->title;
+        $post['body'] = $request->message;
+
+        if ($request->file) {
+            $filename = time().'__'.$request->file->getClientOriginalName();
+            $request->file->move('images', $filename);
+            $post['file'] = $filename;
+        }
+
+        $post->save();
+
+        return redirect('/admin/posts');
     }
 
     /**
@@ -102,5 +130,9 @@ class PostsController extends Controller
     public function destroy($id)
     {
         //
+        $post = Post::where("id", $id)->delete();
+        return redirect('/admin/posts');
+
+        return $id;
     }
 }

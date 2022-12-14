@@ -15,7 +15,7 @@
 		</div>
 		<div class="form-group">	
 				{!! Form::label('message', 'Message') !!}
-				{!! Form::textarea('message', null, ['class' => 'form-control']) !!}
+				{!! Form::textarea('message', null, ['class' => 'form-control', 'placeholder' => 'Create a post...']) !!}
 				@if($errors->first('message'))
 				<p class="alert alert-danger d-inline-block">{{$errors->first('message')}}</p>
 				@endif
@@ -23,7 +23,7 @@
 		<div class="form-group">	
 				{!! Form::label('file', 'File') !!}
 				{{-- {!! Form::file('file', null, ['class' => 'form-control', 'multiple' => true]) !!} --}}
-				<input type="file" name="filenames[]" multiple class="form-control">
+				<input type="file" name="file" class="form-control">
 				@if($errors->first('file'))
 				<p class="alert alert-danger d-inline-block">{{$errors->first('file')}}</p>
 				@endif

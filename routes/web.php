@@ -2,8 +2,10 @@
 
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,18 +18,42 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+
 // users routes
 Route::get('/', function () {
-    return view('users.home');
+    if (Auth::user()) {
+        $posts = Post::where('user_id', Auth::user()->id)->get();
+        return view('users.home', compact('posts'));
+    } else {
+        return view('users.home');
+    }
 });
 
 // admin routes
 Route::get('/admin', ['middleware' => 'admin_login', function () {
     return view('admin.index');
 }]);
+
+/**
+ * Admin Post Start
+ */
+
+// GET ALL POSTS
 Route::get('/admin/posts', [PostsController::class, 'index']);
+// GET POST
 Route::get('/admin/post/create', [PostsController::class, 'create']);
+// CREATE POST
 Route::post('/admin/post/create', [PostsController::class, 'store']);
+// EDIT POST
+Route::get('/admin/post/edit/{id}', [PostsController::class, 'edit']);
+Route::post('/admin/post/update/{id}', [PostsController::class, 'update']);
+// DELETE POST
+Route::get('/admin/post/delete/{id}', [PostsController::class, 'destroy']);
+
+
+/**
+ * Admin Post End
+ */
 
 // auth routes
 Route::get('/register', [AuthController::class, 'register']);

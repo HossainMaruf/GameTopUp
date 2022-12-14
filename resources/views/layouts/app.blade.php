@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="{{ asset('frontend') }}/fonts/flaticon/font/flaticon.css">
         <link rel="stylesheet" href="{{ asset('frontend') }}/css/aos.css"> -->
         <link rel="stylesheet" href="{{ asset('frontend') }}/css/style.css">
-        <title>Document</title>
+        <title>Gamers</title>
     </head>
     <body>
         <div class="home-wrapper">

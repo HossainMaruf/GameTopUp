@@ -1,26 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- Custom fonts for this template-->
+<link href="{{ asset('dashboard') }}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="{{ asset('dashboard') }}/https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-<head>
+<!-- Custom styles for this template-->
+<link href="{{ asset('dashboard') }}/css/admin.css" rel="stylesheet">
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>SB Admin 2 - Login</title>
-
-  <!-- Custom fonts for this template-->
-  <link href="{{ asset('dashboard') }}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="{{ asset('dashboard') }}/https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-  <!-- Custom styles for this template-->
-  <link href="{{ asset('dashboard') }}/css/admin.css" rel="stylesheet">
-
-</head>
-
-<body class="bg-gradient-primary">
+@extends('layouts.app')
+@section('content')
+<div class="bg-gradient-primary">
 
   <div class="container">
 
@@ -40,33 +27,33 @@
                     <h1 class="h4 text-gray-900 mb-4">Welcome</h1>
                   </div>
                   <form class="user" method='POST' action="{{ url('/register') }}" enctype="multipart/form-data">
-                  	{{ @csrf_field() }}
+                    {{ @csrf_field() }}
                     <div class="form-group">
-                      <input type="text" name="name" class="form-control form-control-user" id="" placeholder="Username">
+                      <input type="text" name="name" class="form-control form-control-user" value='{{ old('name') }}' id="" placeholder="Username">
                       @if($errors->first('name'))
-                      	<div class="alert alert-danger">{{$errors->first('name')}}</div>
+                        <div class="alert alert-danger">{{$errors->first('name')}}</div>
                       @endif
                     </div>
 
                     <div class="form-group">
-                      <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email">
+                      <input type="email" name="email" class="form-control form-control-user" value="{{ old('email') }}" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email">
                       @if($errors->first('email'))
-                      	<div class="alert alert-danger">{{$errors->first('email')}}</div>
+                        <div class="alert alert-danger">{{$errors->first('email')}}</div>
                       @endif
-					 @if($errors->first('message'))
-		              	<div class="alert alert-danger">{{$errors->first('message')}}</div>
-	                 @endif
+           @if($errors->first('message'))
+                    <div class="alert alert-danger">{{$errors->first('message')}}</div>
+                   @endif
                     </div>
                     <div class="form-group">
-                      <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
-					@if($errors->first('password'))
-                      	<div class="alert alert-danger">{{$errors->first('password')}}</div>
+                      <input type="password" name="password" value="{{ old('password') }}" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+          @if($errors->first('password'))
+                        <div class="alert alert-danger">{{$errors->first('password')}}</div>
                       @endif
                     </div>
                     <div class="form-group">
-                      <input type="password" name="password_confirmed" class="form-control form-control-user" id="exampleInputPassword" placeholder="Confirm Password">
-					@if($errors->first('password_confirmed'))
-                      	<div class="alert alert-danger">{{$errors->first('password_confirmed')}}</div>
+                      <input type="password" name="password_confirmed" value="{{ old('password_confirmed') }}" class="form-control form-control-user" id="exampleInputPassword" placeholder="Confirm Password">
+          @if($errors->first('password_confirmed'))
+                        <div class="alert alert-danger">{{$errors->first('password_confirmed')}}</div>
                       @endif
                     </div>
                     <div class="form-group">
@@ -77,7 +64,7 @@
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
-                       		<button type="submit" class="btn btn-primary">Submit</button> 
+                          <button type="submit" class="btn btn-primary">Submit</button> 
                       </div>
                     </div>
                     <hr>
@@ -94,7 +81,7 @@
                   </div>
 
                  {{-- @if($errors)
-                  	<div>{{$errors}}</div>
+                    <div>{{$errors}}</div>
                 @endif --}}
 
                 </div>
@@ -119,6 +106,5 @@
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('dashboard') }}/js/sb-admin-2.min.js"></script>
 
-</body>
-
-</html>
+</div>
+@endsection
