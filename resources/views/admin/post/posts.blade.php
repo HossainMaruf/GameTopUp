@@ -17,8 +17,8 @@
 	    <tbody>
 	@foreach($posts as $post)
 	      <tr>
-	        <td>{{$post->title}}</td>
-	        <td>{{$post->body}}</td>
+	        <td> {{ get_words($post->title, 5) }} </td>
+	        <td> {{ get_words($post->body) }} </td>
 	        @if($post->file)
 	        <td>
 	        	<img width="50" height="50" class="img" src="/images/{{$post->file}}" alt="Not Found">
@@ -29,9 +29,9 @@
 	        <td>{{$post->created_at->format('d:m:y --- h:i:s')}}</td>
 	        <td>{{$post->updated_at->format('d:m:y --- h:i:s')}}</td>
 	        <td>
-	        	<a class=" btn btn-primary" href="/admin/post/edit/{{ $post->id }}">Edit</a>
-						<a class=" btn btn-secondary" href="/admin/post/hide/{{ $post->id }}">Hide</a>
-						<a class="btn btn-danger" href="/admin/post/delete/{{ $post->id }}">Delete</a>
+	        	<a class="mb-1 btn btn-sm btn-primary" href="/admin/post/edit/{{ $post->id }}">Edit</a>
+						<a class="mb-1 btn btn-sm btn-secondary" href="/admin/post/hide/{{ $post->id }}">Hide</a>
+						<a class="mb-1 btn btn-sm btn-danger" href="/admin/post/delete/{{ $post->id }}">Delete</a>
 	        </td>
 	      </tr>
 	@endforeach

@@ -19,6 +19,7 @@
 						@elseif(Auth::user())
 							<li><a href="{{ url('/admin') }}">Dashboard</a></li>
 						@endif
+						{{-- TODO: Not working search button --}}
 						<li class="d-none d-lg-inline-block"><a href="#" class="js-search-toggle"><span class="icon-search"></span></a></li>
 					</ul>
 				</nav>

@@ -21,12 +21,16 @@ use App\Http\Controllers\AuthController;
 
 // users routes
 Route::get('/', function () {
-    if (Auth::user()) {
-        $posts = Post::where('user_id', Auth::user()->id)->get();
-        return view('users.home', compact('posts'));
-    } else {
-        return view('users.home');
-    }
+    // $posts = Post::all();
+    $posts = DB::table('posts')->paginate(4);
+    $posts->withPath('/');
+    return view('users.home', compact('posts'));
+});
+
+// Get the single post
+Route::get("/post/{id}", function($id) {
+    $post = Post::where("id", $id)->first();
+    return view('users.single', compact('post'));
 });
 
 // admin routes
