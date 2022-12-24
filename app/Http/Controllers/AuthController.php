@@ -42,7 +42,7 @@ class AuthController extends Controller
 
 
         if(Auth::attempt($credentials)) {
-            return redirect()->intended('/admin');
+            return redirect()->back();
         }
     }
 
@@ -91,8 +91,8 @@ class AuthController extends Controller
         $value['password'] = Hash::make($value['password']);
         $user = User::create($value);
         if(Auth::attempt(['email' => $value['email'], 'password' => $request->password])) {
-            return redirect()->intended('/admin');
-        } else return redirect()->intended('/');
+            return redirect()->intended('/');
+        } else return redirect()->intended('/register');
     }
 
     /**
@@ -141,14 +141,31 @@ class AuthController extends Controller
     }
 
     public function login() {
-        return view('auth.login');
+        if(Auth::user()) {
+            return redirect()->intended('/');
+        } else {
+            return view('auth.login');
+        }
     }
 
     public function register() {
-        return view('auth.register');
+        if(Auth::user()) {
+           return redirect()->intended('/');
+        } else {
+           return view('auth.register');
+        }
     }
+    /**
+     * Custom Function to prevent GET request to the 
+     * Logout Route
+     * @return [type] [description]
+     */
+    public function getLogout() {
+        return redirect()->intended('/');
+    }
+
     public function logout() {
         Session::flush();
-        return redirect() -> intended('/');
+        return redirect()->back();
     }
 }

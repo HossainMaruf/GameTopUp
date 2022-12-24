@@ -17,8 +17,32 @@ class PostsController extends Controller
     public function index()
     {
         //
-        $posts = Post::where('user_id', Auth::user()->id)->get();
+        // $posts = Post::where('user_id', Auth::user()->id)->get();
+        $posts = Post::all();
         return view('admin.post.posts', compact('posts'));
+    }
+    /**
+     * Get the trash posts
+     */
+    public function getTrashPosts()
+    {
+        $posts = Post::all();
+        return view('admin.post.trash', compact('posts'));
+    }
+
+    /**
+     * Move a POST to Trash
+     */
+    public function makeTrashPost($id)
+    {
+        return $id;
+    }
+    /**
+     * Restore the trash post
+     */
+    public function restorePost($id)
+    {
+        return $id;
     }
 
     /**
@@ -131,8 +155,7 @@ class PostsController extends Controller
     {
         //
         $post = Post::where("id", $id)->delete();
+        // TODO: redirect problem
         return redirect('/admin/posts');
-
-        return $id;
     }
 }

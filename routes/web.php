@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UsersPostsController;;
 
 
 /*
@@ -19,31 +21,72 @@ use App\Http\Controllers\AuthController;
 */
 
 
-// users routes
-Route::get('/', function () {
-    // $posts = Post::all();
-    $posts = DB::table('posts')->paginate(4);
-    $posts->withPath('/');
-    return view('users.home', compact('posts'));
-});
+/**
+ * User Routes Start
+ */
 
+/* ==================== User Post Controller Start ========================= */
+
+// Load home page
+Route::get('/', [UsersPostsController::class, 'index']);
 // Get the single post
-Route::get("/post/{id}", function($id) {
-    $post = Post::where("id", $id)->first();
-    return view('users.single', compact('post'));
-});
+Route::get("/post/{id}", [UsersPostsController::class, 'getSinglePost']);
 
-// admin routes
+/* ==================== User Post Controller End ========================= */
+
+
+
+
+
+/* ==================== Comment Controller Start ========================= */
+
+// Comment on a specific post
+Route::post('/comment/{id}', [CommentController::class, 'store']);
+
+/* ===================== Comment Controller End ================== */
+
+
+
+
+
+/* ===================== User Auth Controller Start ================== */
+
+Route::get('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'store']);
+Route::get('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'index']);
+Route::get('/logout', [AuthController::class, 'getLogout']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
+/* ===================== User Auth Controller End ================== */
+
+
+/**
+ * User Routes End
+ */
+
+
+
+/**
+ * Admin Routes Start
+ */
+
+
+/* ===================== Admin Post Controller Start ================== */
+
+// Load the admin Dashboard
 Route::get('/admin', ['middleware' => 'admin_login', function () {
     return view('admin.index');
 }]);
 
-/**
- * Admin Post Start
- */
-
 // GET ALL POSTS
 Route::get('/admin/posts', [PostsController::class, 'index']);
+// GET TRASH POSTS
+Route::get('/admin/trash', [PostsController::class, 'getTrashPosts']);
+// Move a POST to Trash Section
+Route::get('/admin/trash/{id}', [PostsController::class, 'makeTrashPost']);
+// Trash Post Restoring
+Route::get('/admin/restore/{id}', [PostsController::class, 'restorePost']);
 // GET POST
 Route::get('/admin/post/create', [PostsController::class, 'create']);
 // CREATE POST
@@ -54,14 +97,9 @@ Route::post('/admin/post/update/{id}', [PostsController::class, 'update']);
 // DELETE POST
 Route::get('/admin/post/delete/{id}', [PostsController::class, 'destroy']);
 
+/* ===================== Admin Post Controller End ================== */
+
 
 /**
- * Admin Post End
+ * Admin Routes End
  */
-
-// auth routes
-Route::get('/register', [AuthController::class, 'register']);
-Route::post('/register', [AuthController::class, 'store']);
-Route::get('/login', [AuthController::class, 'login']);
-Route::post('/login', [AuthController::class, 'index']);
-Route::get('/logout', [AuthController::class, 'logout']);

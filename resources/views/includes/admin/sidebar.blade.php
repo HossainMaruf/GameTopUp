@@ -66,7 +66,7 @@
           <h6 class="collapse-header">Actions</h6>
           <a class="collapse-item" href="/admin/post/create">Create Post</a>
           <a class="collapse-item" href="/admin/posts">Show Posts</a>
-          <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+          <a class="collapse-item" href="/admin/trash">Trash</a>
           <div class="collapse-divider"></div>
           <h6 class="collapse-header">Other Pages:</h6>
           <a class="collapse-item" href="404.html">404 Page</a>

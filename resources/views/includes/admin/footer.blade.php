@@ -1,7 +1,8 @@
 <footer class="sticky-footer bg-white">
 	<div class="container my-auto">
 		<div class="copyright text-center my-auto">
-			<span>Copyright &copy; Your Website 2020</span>
+{{-- TODO: Dynamic name goes here --}}
+			<span>Copyright &copy; Maruf Hossain {{ date('Y') }}</span>
 		</div>
 	</div>
 </footer>

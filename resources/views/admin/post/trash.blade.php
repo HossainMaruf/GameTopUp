@@ -3,6 +3,9 @@
 <div class="container">
 	<div class="">
 		@if (count($posts) > 0)
+		<div class="row text-center">
+			<div class="container h1">Trash Posts</div>
+		</div>
 		<table class="table table-light table-striped text-center">
 		    <thead>
 	      <tr>
@@ -29,8 +32,7 @@
 	        <td>{{ date("l jS \of F Y h:i:s A", strtotime($post->created_at)) }}</td>
 	        <td>{{ date("l jS \of F Y h:i:s A", strtotime($post->updated_at)) }}</td>
 	        <td>
-	        	<a class="mb-1 btn btn-sm btn-primary" href="/admin/post/edit/{{ $post->id }}">Edit</a>
-						<a class="mb-1 btn btn-sm btn-secondary" href="/admin/trash/{{ $post->id }}">Trash</a>
+						<a class="mb-1 btn btn-sm btn-secondary" href="/admin/restore/{{ $post->id }}">Restore</a>
 						<a class="mb-1 btn btn-sm btn-danger" href="/admin/post/delete/{{ $post->id }}">Delete</a>
 	        </td>
 	      </tr>
@@ -38,7 +40,7 @@
 	    </tbody>
 	</table>
 	@else
-			<div class="h1 text-center">No Posts</div>
+			<div class="h1 text-center">No Trash Posts</div>
 	@endif	
 	</div>
 </div>

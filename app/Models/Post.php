@@ -11,4 +11,24 @@ class Post extends Model
 
     protected $fillable = ['title', 'body', 'file', 'user_id'];
     public $timestamps = true;
+
+
+    /**
+     * Relation with User Table
+     * @return [type] [description]
+     */
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+
+
+
+    /**
+     * Relation with Comments Table
+     */
+
+    public function comments() {
+        return $this->hasMany(Comment::class)->whereNull('parent_id');
+    }
 }

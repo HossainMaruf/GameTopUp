@@ -25,10 +25,6 @@ class CreatePostsTable extends Migration
         });
     }
 
-    // relationship with users table
-    public function user() {
-        return $this->belongsTo('user');
-    }
 
     /**
      * Reverse the migrations.

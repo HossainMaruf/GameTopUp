@@ -58,23 +58,20 @@
 	<div class="site-section">
 		<div class="container">
 			<div class="row" id="recent">
-				@if($posts ?? '')
+				@if($posts->count() > 0)
 				<div class="col-lg-12 mb-4 text-center">
 					<h2>Recent Posts</h2>
 				</div>
 				@foreach($posts as $post)
 				<div class="col-md-3 retro-layout-2">
-					
-					<a href="/post/{{ $post->id }}" class="h-entry mb-30 v-height gradient" style="background-image: @if($post->file) url('/images/{{ $post->file }}') @else url(') @endif">
+					<a href="/post/{{ $post->id }}" class="h-entry mb-30 v-height gradient" style="background-image: @if($post->file) url('/images/{{ $post->file }}') @else url('') @endif">
 						<div class="text">
 							<h2>{{ get_words($post->title) }}</h2>
 							<span class="date">{{ date("d-m-y", strtotime($post->created_at)) }}</span>
 						</div>
 					</a>
-
 				</div>
 				@endforeach
-				@endif
 			</div>
 			<div class="row text-center">
 				<div class="container">
@@ -83,16 +80,13 @@
 					@else
 					<a href="{{ $posts->url($posts->currentPage() - 1 ) }}#recent" class="btn btn-primary">Back</a>
 					@endif
-
-					@for($i=$posts->currentPage()-2; $i<=$posts->currentPage()+2; ++$i) 
+					@for($i=$posts->currentPage()-2; $i<=$posts->currentPage()+2; ++$i)
 					@if($i<1 || $i>$posts->lastPage())
 					@continue
 					@else
 					<a href="{{ $posts->url($i) }}#recent" class="btn btn-primary {{ $i==$posts->currentPage() ? "bg-danger" : "" }}">{{ $i }}</a>
 					@endif
-
 					@endfor
-
 					@if($posts->currentPage() == $posts->lastPage())
 					<a href="{{ $posts->currentPage() }}#recent" class="btn btn-primary disabled">Next</a>
 					@else
@@ -100,6 +94,7 @@
 					@endif
 				</div>
 			</div>
+			@endif
 		</div>
 	</div>
 	<div class="site-section bg-light">

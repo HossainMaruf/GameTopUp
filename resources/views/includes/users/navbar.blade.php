@@ -7,8 +7,8 @@
 			<div class="col-4">Some Tex Here</div>
 			<div class="col-8 text-right">
 				<nav class="site-navigation" role="navigation">
-					<ul class="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
-						<li><a href="{{ url('/') }}">Home</a></li>
+					<ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+						<li><a href="{{ url('/') }}" class="text-primary">Home</a></li>
 						<li><a href="category.html" class="btn disabled">Game</a></li>
 						<li><a href="category.html" class="btn disabled">Tech</a></li>
 						<li><a href="category.html" class="btn disabled">Entertainment</a></li>
@@ -17,7 +17,12 @@
 							<li><a href="{{ url('/login') }}">Login</a></li>
 							<li><a href="{{ url('/register') }}">Register</a></li>
 						@elseif(Auth::user())
-							<li><a href="{{ url('/admin') }}">Dashboard</a></li>
+							<li>
+								<form action="/logout" method="POST">
+									{{ csrf_field() }}
+									<input type="submit" value="Logout" class="btn text-primary bg-transparent"/>
+								</form>
+							</li>
 						@endif
 						{{-- TODO: Not working search button --}}
 						<li class="d-none d-lg-inline-block"><a href="#" class="js-search-toggle"><span class="icon-search"></span></a></li>

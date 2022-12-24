@@ -38,115 +38,74 @@
 
 
             <div class="pt-5">
-              <h3 class="mb-5">6 Comments</h3>
-              <ul class="comment-list">
-                <li class="comment">
-                  <div class="vcard">
-                    <img src="images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3>Jean Doe</h3>
-                    <div class="meta">January 9, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply rounded">Reply</a></p>
-                  </div>
-                </li>
+              <h3>{{ $comments->count() }} Comments</h3>
+              {{-- <h3>{{ $replies->count() }} replies</h3> --}}
 
-                <li class="comment">
-                  <div class="vcard">
-                    <img src="images/person_1.jpg" alt="Image placeholder">
+              @if(Auth::user())
+              <div class="comment-form-wrap pt-2 mb-2">
+                <form action="/comment/{{ $post->id }}#comment" method="POST" class="p-3 bg-light">
+                  {{ csrf_field() }}
+                  <div class="form-group">
+                    <textarea name="body" id="message" cols="30" rows="1" class="form-control" placeholder="Write your comment..." required></textarea>
                   </div>
-                  <div class="comment-body">
-                    <h3>Jean Doe</h3>
-                    <div class="meta">January 9, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply rounded">Reply</a></p>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Post</button>
                   </div>
+                </form>
+              </div>
+              @endif
+              <ul class="list-unstyled">
+                @foreach($comments as $comment)
+                <li class="mb-3">
+                  <div>
+                  <div class="comment-body border p-3">
 
-                  <ul class="children">
-                    <li class="comment">
-                      <div class="vcard">
-                        <img src="images/person_1.jpg" alt="Image placeholder">
-                      </div>
-                      <div class="comment-body">
-                        <h3>Jean Doe</h3>
-                        <div class="meta">January 9, 2018 at 2:21pm</div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                        <p><a href="#" class="reply rounded">Reply</a></p>
-                      </div>
+                    @if ($loop->last)
+                      <div id="comment" class="hidden"></div>
+                    @endif
 
-
-                      <ul class="children">
-                        <li class="comment">
-                          <div class="vcard">
-                            <img src="images/person_1.jpg" alt="Image placeholder">
-                          </div>
+                      <img src="{{ asset("/images/") }}/person_1.jpg" class="d-inline-block" alt="Profile">
+                      <small class="text-primary">Jean Doe</small>
+                      <small>January 9, 2018 at 2:21pm</small>
+                      <p>{{ $comment->body }}</p>
+                      <ul class="children" style="list-style-type: none;">
+                      @foreach ($replies as $reply) 
+                        @if($comment->id == $reply->parent_id)
+                        <li class="">
                           <div class="comment-body">
-                            <h3>Jean Doe</h3>
-                            <div class="meta">January 9, 2018 at 2:21pm</div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                            <p><a href="#" class="reply rounded">Reply</a></p>
+                            <img src="images/person_1.jpg" alt="Profile">
+                            <small>Jean Doe</small>
+                            <small>January 9, 2018 at 2:21pm</small>
+                            <p>{{ $reply->body }}</p>
                           </div>
-
-                            <ul class="children">
-                              <li class="comment">
-                                <div class="vcard">
-                                  <img src="images/person_1.jpg" alt="Image placeholder">
-                                </div>
-                                <div class="comment-body">
-                                  <h3>Jean Doe</h3>
-                                  <div class="meta">January 9, 2018 at 2:21pm</div>
-                                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                  <p><a href="#" class="reply rounded">Reply</a></p>
-                                </div>
-                              </li>
-                            </ul>
                         </li>
+                        @endif
+                      @endforeach
                       </ul>
-                    </li>
-                  </ul>
-                </li>
+                      @if(Auth::user())
+                      <div class="comment-form-wrap">
+                        <form action="/reply/{{ $post->id }}#comment" method="POST" class="p-3">
+                          {{ csrf_field() }}
+                          <div class="form-group">
+                            <textarea name="body" id="message" cols="30" rows="1" class="form-control" placeholder="Reply..." required></textarea>
+                          </div>
+                          <div class="form-group">
+                            <button type="submit" class="btn btn-sm btn-primary">Reply</button>
+                          </div>
+                        </form>
+                      </div>
+                      @endif
+                    </div>
+                  </div>
 
-                <li class="comment">
-                  <div class="vcard">
-                    <img src="images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3>Jean Doe</h3>
-                    <div class="meta">January 9, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply rounded">Reply</a></p>
-                  </div>
+
+                  @endforeach
+
+                  
                 </li>
               </ul>
               <!-- END comment-list -->
               
-              <div class="comment-form-wrap pt-5">
-                <h3 class="mb-5">Leave a comment</h3>
-                <form action="#" class="p-5 bg-light">
-                  <div class="form-group">
-                    <label for="name">Name *</label>
-                    <input type="text" class="form-control" id="name">
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" class="form-control" id="email">
-                  </div>
-                  <div class="form-group">
-                    <label for="website">Website</label>
-                    <input type="url" class="form-control" id="website">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <input type="submit" value="Post Comment" class="btn btn-primary">
-                  </div>
-
-                </form>
-              </div>
             </div>
 
           </div>
