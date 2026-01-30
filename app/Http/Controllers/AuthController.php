@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
 use Symfony\Component\Console\Input;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -62,6 +63,7 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // Register a User
     public function store(Request $request)
     {
         //
@@ -91,6 +93,7 @@ class AuthController extends Controller
         $value['password'] = Hash::make($value['password']);
         $user = User::create($value);
         if(Auth::attempt(['email' => $value['email'], 'password' => $request->password])) {
+            event(new Registered($value['email'])); 
             return redirect()->intended('/');
         } else return redirect()->intended('/register');
     }

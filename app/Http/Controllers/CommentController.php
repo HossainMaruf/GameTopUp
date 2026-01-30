@@ -49,6 +49,25 @@ class CommentController extends Controller
     }
 
     /**
+     * Reply to a specific comment
+     * @param  Request $request   [description]
+     * @param  [int]  $parent_id [comment_id]
+     * @return [void]             [description]
+     */
+    public function storeReply(Request $request, $post_id, $id) {
+        $data = $request->all();
+        $data = [
+           'user_id' => Auth::user()->id,
+           'post_id' => $post_id,
+           'parent_id' => $id, 
+           'body' => $request->body
+        ];
+        Comment::insert($data);
+        $replyID = Comment::where('parent_id', $id)->latest('id')->first()->id;
+        return redirect()->back();
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

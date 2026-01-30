@@ -81,17 +81,17 @@
 					<a href="{{ $posts->url($posts->currentPage() - 1 ) }}#recent" class="btn btn-primary">Back</a>
 					@endif
 					@for($i=$posts->currentPage()-2; $i<=$posts->currentPage()+2; ++$i)
-					@if($i<1 || $i>$posts->lastPage())
-					@continue
-					@else
-					<a href="{{ $posts->url($i) }}#recent" class="btn btn-primary {{ $i==$posts->currentPage() ? "bg-danger" : "" }}">{{ $i }}</a>
-					@endif
-					@endfor
-					@if($posts->currentPage() == $posts->lastPage())
-					<a href="{{ $posts->currentPage() }}#recent" class="btn btn-primary disabled">Next</a>
-					@else
-					<a href="{{ $posts->url($posts->currentPage() + 1) }}#recent" class="btn btn-primary">Next</a>
-					@endif
+						@if($i<1 || $i>$posts->lastPage())
+							@continue
+							@else
+							<a href="{{ $posts->url($i) }}#recent" class="btn btn-primary {{ $i==$posts->currentPage() ? "bg-danger" : "" }}">{{ $i }}</a>
+							@endif
+							@endfor
+							@if($posts->currentPage() == $posts->lastPage())
+							<a href="{{ $posts->currentPage() }}#recent" class="btn btn-primary disabled">Next</a>
+							@else
+							<a href="{{ $posts->url($posts->currentPage() + 1) }}#recent" class="btn btn-primary">Next</a>
+							@endif
 				</div>
 			</div>
 			@endif

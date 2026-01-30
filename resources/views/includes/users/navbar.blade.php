@@ -1,9 +1,6 @@
 <header class="site-navbar" role="banner">
 	<div class="container-fluid">
 		<div class="row align-items-center">
-			<div class="search-form-wrap js-search-form">
-				<input type="text" id="s" class="form-control" placeholder="Search...">
-			</div>
 			<div class="col-4">Some Tex Here</div>
 			<div class="col-8 text-right">
 				<nav class="site-navigation" role="navigation">
@@ -24,8 +21,10 @@
 								</form>
 							</li>
 						@endif
-						{{-- TODO: Not working search button --}}
-						<li class="d-none d-lg-inline-block"><a href="#" class="js-search-toggle"><span class="icon-search"></span></a></li>
+						<li><input type="text" id="s" class="form-control" placeholder="Search..."></li>
+						<li class="d-none d-lg-inline-block">
+							<a href="#" class="js-search-toggle"><span class="icon-search"></span></a>
+						</li>
 					</ul>
 				</nav>
 				<a href="#" class="site-menu-toggle js-menu-toggle text-black d-inline-block d-lg-none"><span class="icon-menu h3"></span></a>

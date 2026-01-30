@@ -39,7 +39,6 @@
 
             <div class="pt-5">
               <h3>{{ $comments->count() }} Comments</h3>
-              {{-- <h3>{{ $replies->count() }} replies</h3> --}}
 
               @if(Auth::user())
               <div class="comment-form-wrap pt-2 mb-2">
@@ -59,17 +58,17 @@
                 <li class="mb-3">
                   <div>
                   <div class="comment-body border p-3">
-
                     @if ($loop->last)
                       <div id="comment" class="hidden"></div>
                     @endif
 
-                      <img src="{{ asset("/images/") }}/person_1.jpg" class="d-inline-block" alt="Profile">
+                      <img src="{{ asset("/images/") }}/person_1.jpg}} class="d-inline-block" alt="Profile">
                       <small class="text-primary">Jean Doe</small>
                       <small>January 9, 2018 at 2:21pm</small>
                       <p>{{ $comment->body }}</p>
                       <ul class="children" style="list-style-type: none;">
                       @foreach ($replies as $reply) 
+                        {{-- TODO: scroll to specific comment --}}
                         @if($comment->id == $reply->parent_id)
                         <li class="">
                           <div class="comment-body">
@@ -84,7 +83,7 @@
                       </ul>
                       @if(Auth::user())
                       <div class="comment-form-wrap">
-                        <form action="/reply/{{ $post->id }}#comment" method="POST" class="p-3">
+                        <form action="/reply/{{ $post->id }}/{{ $comment->id }}#reply" method="POST" class="p-3">
                           {{ csrf_field() }}
                           <div class="form-group">
                             <textarea name="body" id="message" cols="30" rows="1" class="form-control" placeholder="Reply..." required></textarea>

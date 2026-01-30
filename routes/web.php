@@ -8,6 +8,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UsersPostsController;;
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +45,8 @@ Route::get("/post/{id}", [UsersPostsController::class, 'getSinglePost']);
 
 // Comment on a specific post
 Route::post('/comment/{id}', [CommentController::class, 'store']);
+// Reply on a specific comment
+Route::post('/reply/{post_id}/{parent_id}', [CommentController::class, 'storeReply']);
 
 /* ===================== Comment Controller End ================== */
 
@@ -57,6 +62,24 @@ Route::get('/login', [AuthController::class, 'login']);
 Route::post('/login', [AuthController::class, 'index']);
 Route::get('/logout', [AuthController::class, 'getLogout']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
+// Email Verification
+// Notify the user that Email is sent
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+// Get the click response back
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Resend the verfication Email 
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 /* ===================== User Auth Controller End ================== */
 
